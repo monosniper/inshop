@@ -1,0 +1,155 @@
+@import "../vars";
+
+.banner {
+  padding-top: 180px;
+
+  canvas {
+    z-index: -1;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  &__description {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    color: $blue;
+  }
+}
+
+.shop-block {
+  &__items {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .title {
+    margin-bottom: 60px;
+  }
+
+  &__item {
+    background: $grey;
+    border-radius: 30px;
+    width: calc(25% - 20px);
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 30px;
+  }
+
+  &__title {
+    font-weight: 500;
+  }
+
+  &__description {
+    font-size: 14px;
+  }
+}
+
+.laptop {
+  z-index: 3;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0 100px;
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .video {
+    position: relative;
+    width: 980px;
+    height: 620px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__poster {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 30px;
+    }
+
+    &__overflow {
+      border-radius: 30px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: black;
+      opacity: .6;
+      z-index: 1;
+    }
+
+    &__play {
+      z-index: 2;
+    }
+
+    &__button {
+      width: 135px;
+      height: 135px;
+      border-radius: 100%;
+      background: $red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      position: relative;
+      cursor: pointer;
+
+      &::before {
+        content: '';
+        border-radius: 100%;
+        background: $red;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        animation: play 1s infinite linear;
+        //transition: .3s ease-in;
+      }
+
+      span {
+        z-index: 1;
+        font-size: 60px;
+      }
+    }
+  }
+}
+
+@keyframes play {
+  33% {
+    transform: scale(1.2);
+    opacity: .5;
+  }
+  66% {
+    transform: scale(1.5);
+    opacity: .4;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: .1;
+  }
+}

@@ -1,0 +1,381 @@
+@media screen and(max-width: 1400px) {
+  h1 {
+    line-height: 65px;
+  }
+
+  .laptop .video {
+    width: 840px !important;
+    height: 540px !important;
+  }
+}
+
+@media screen and(max-width: 1150px) {
+  h1 {
+    font-size: 44px;
+    line-height: 55px;
+  }
+
+  h3 {
+    font-size: 36px;
+  }
+
+  .block__description {
+    font-size: 22px !important;
+  }
+
+  .banner__description {
+    margin-bottom: 0 !important;
+  }
+
+  .laptop .video {
+    width: 710px !important;
+    height: 450px !important;
+  }
+
+  .shop-block__item {
+    width: calc(33% - 20px) !important;
+  }
+
+  .questions-block__title {
+    font-size: 34px !important;
+  }
+}
+
+@media screen and(max-width: 990px) {
+    .laptop .video {
+      width: 510px !important;
+      height: 330px !important;
+    }
+
+  .header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 1rem 50px;
+
+    &__burger {
+      display: block;
+      span {
+        font-size: 35px;
+      }
+    }
+
+    &__right {
+      order: 1;
+      flex-basis: 100%;
+      flex-direction: column;
+      gap: 20px;
+      max-height: 0;
+      transition: max-height .5s ease-in-out;
+      overflow: hidden;
+
+      &.active {
+        max-height: 98vh;
+      }
+    }
+
+    &__menu {
+      margin-top: 1rem;
+      gap: 15px;
+      flex-direction: column;
+      align-items: center;
+
+      .header__link {
+        padding: 5px 0;
+      }
+    }
+  }
+}
+
+@media screen and(max-width: 890px) {
+  .title.title_min {
+    max-width: 100% !important;
+  }
+
+  .questions-section__title {
+    font-size: 34px !important;
+    line-height: 46px !important;
+  }
+
+  .button {
+    padding: 13px 20px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+
+    span {
+      font-size: 20px !important;
+    }
+  }
+
+  h1 {
+    font-size: 44px;
+    line-height: 55px;
+  }
+
+  h3 {
+    font-size: 36px;
+  }
+
+  .block__description {
+    font-size: 22px !important;
+  }
+
+  .banner__description {
+    margin-bottom: 0 !important;
+  }
+
+  .laptop {
+    padding-top: 30px !important;
+
+    .video {
+      width: 510px !important;
+      height: 320px !important;
+
+      .video__overflow {
+        border-radius: 20px !important;
+      }
+
+      .video__poster img {
+        border-radius: 20px !important;
+      }
+    }
+  }
+
+  .shop-block__item {
+    width: calc(50% - 20px) !important;
+  }
+
+  .questions-block__title {
+    font-size: 34px !important;
+  }
+
+
+
+  .block__description.block__description_min {
+    max-width: 80% !important;
+  }
+
+
+}
+
+@media screen and(max-width: 780px) {
+
+  .questions-section__wrapper {
+    flex-wrap: wrap ;
+  }
+  .title.title_min {
+    max-width: 100% !important;
+  }
+
+  .questions-section__title {
+    font-size: 34px !important;
+    line-height: 46px !important;
+  }
+
+  .button {
+    padding: 13px 20px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+
+    span {
+      font-size: 20px !important;
+    }
+  }
+
+  h1 {
+    font-size: 44px;
+    line-height: 55px;
+  }
+
+  h3 {
+    font-size: 36px;
+  }
+
+  .block__description {
+    font-size: 22px !important;
+  }
+
+  .banner__description {
+    margin-bottom: 0 !important;
+  }
+
+  .laptop {
+    padding-top: 30px !important;
+
+    .video {
+      width: 510px !important;
+      height: 320px !important;
+
+      .video__overflow {
+        border-radius: 20px !important;
+      }
+
+      .video__poster img {
+        border-radius: 20px !important;
+      }
+    }
+  }
+
+  .shop-block__item {
+    width: calc(50% - 20px) !important;
+  }
+
+  .questions-block__title {
+    font-size: 34px !important;
+  }
+
+
+
+  .block__description.block__description_min {
+    max-width: 80% !important;
+  }
+
+  .footer__top {
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer__menu {
+    flex-wrap: wrap !important;
+  }
+}
+
+@media screen and(max-width: 400px) {
+
+  .splide__arrows {
+    display: none !important;
+  }
+
+  .subscribe-form__input {
+    padding: 0 20px !important;
+    font-size: 14px !important;
+    margin: 0.5rem 0 !important;
+  }
+
+  .subscribe-form__wrapper {
+    flex-wrap: wrap;
+    height: auto !important;
+    justify-content: center !important;
+  }
+
+  .section + .section {
+    margin-top: 70px !important;
+  }
+  .section.section_gradient {
+    margin: 0 20px !important;
+  }
+
+  .title.title_min {
+    max-width: 100% !important;
+  }
+
+  .questions-section__title {
+    font-size: 34px !important;
+    line-height: 46px !important;
+  }
+
+  .button {
+    padding: 13px 20px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+
+    span {
+      font-size: 20px !important;
+    }
+  }
+
+  h1 {
+    font-size: 34px !important;
+    line-height: 45px !important;
+  }
+
+  h3 {
+    font-size: 36px;
+  }
+
+  .block__description {
+    font-size: 22px !important;
+  }
+
+  .banner__description {
+    margin-bottom: 0 !important;
+  }
+
+  .shop-block__item {
+    width: calc(100% - 20px) !important;
+  }
+
+  .laptop {
+    padding-top: 20px !important;
+
+    .video {
+      width: 250px !important;
+      height: 160px !important;
+
+      .video__overflow {
+        border-radius: 20px !important;
+      }
+
+      .video__poster img {
+        border-radius: 20px !important;
+      }
+    }
+  }
+
+  .video__button {
+    width: 65px !important;
+    height: 65px !important;
+
+    span {
+      font-size: 30px !important;
+    }
+  }
+
+  .section_center-contents {
+    gap: 1.5rem !important;
+  }
+
+  .questions-block__title {
+    font-size: 34px !important;
+  }
+
+  .section__description.section__description_min {
+    max-width: 100% !important;
+  }
+
+  .block__description.block__description_min {
+    max-width: 80% !important;
+  }
+
+  .footer__top {
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer__menu {
+    flex-wrap: wrap !important;
+  }
+
+  h2 {
+    font-size: 28px !important;
+    line-height: 31px !important;
+  }
+
+  .section__description {
+    font-size: 16px !important;
+    line-height: 25px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .section_gradient {
+    background: linear-gradient(
+                    179deg, $red 0.08%, $red 0.09%, $blue 99.91%) !important;
+  }
+
+  .section_gradient-alt {
+    background: linear-gradient(
+                  179deg, $blue 0.08%, $blue 0.09%, $red 99.91%) !important;
+  }
+}
+

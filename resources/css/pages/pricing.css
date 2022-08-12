@@ -1,0 +1,17 @@
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.price + .price {
+  margin-top: 1rem;
+}
+.price__name {
+  font-size: 20px;
+  color: #242E56;
+}
+.price__amount {
+  color: #952228;
+  font-size: 16px;
+}

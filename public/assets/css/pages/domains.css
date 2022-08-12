@@ -1,0 +1,44 @@
+.domain__name {
+  font-weight: normal;
+  font-size: 36px !important;
+}
+.domain__tag {
+  font-size: 24px;
+  color: #454545;
+}
+.domain__top {
+  margin-bottom: 30px;
+  display: block;
+}
+.domain__bottom {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+.domain__price {
+  color: #952228;
+  font-size: 16px;
+}
+.domain + .domain {
+  margin-top: 1rem;
+}
+
+.more-domains {
+  justify-content: center;
+}
+
+.domain-zone {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.domain-zone__name {
+  font-size: 28px;
+  color: #952228;
+}
+.domain-zone__price {
+  font-size: 16px;
+}

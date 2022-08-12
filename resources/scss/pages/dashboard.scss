@@ -1,0 +1,241 @@
+@import "../vars";
+@import "../fonts";
+@import "~noty/src/noty.scss";
+@import "~noty/src/themes/mint.scss";
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    color: $blue;
+    font-family: "Montserrat", sans-serif;
+}
+
+body {
+    background: #EDF1FF;
+}
+
+.noty_body {
+    color: white;
+}
+
+.button {
+    background: $blue;
+    border-radius: 40px;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+
+    &.button_sm {
+        font-size: 14px;
+        padding: 7px 20px;
+    }
+
+    &:hover {
+        opacity: .8;
+    }
+}
+
+.block {
+    background: #fff;
+    border-radius: 20px;
+}
+
+.logo {
+    width: 100px;
+    margin-bottom: 1rem;
+    margin-left: 2.5rem;
+    display: block;
+}
+
+.content {
+    min-height: 80vh;
+    padding: 2rem;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+}
+
+.end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sidebar {
+    height: 80vh;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    padding-left: 1rem;
+
+    &__title {
+        font-weight: 600;
+        padding-left: 1.5rem;
+        font-size: 20px;
+        margin: 1rem 0;
+        display: block;
+    }
+}
+
+.title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.menu {
+    padding-left: 1.5rem;
+
+    &__item {
+        position: relative;
+        padding: .5rem 0;
+        display: flex;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 500;
+        gap: .5rem;
+        align-items: center;
+
+        &:hover {
+            color: $red;
+        }
+
+        &::after {
+            background: $blue;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 5px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        &.menu__item_active::after {
+            content: '';
+        }
+    }
+}
+
+.domain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: .5rem 0;
+
+    &__right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    &__status {
+        &.domain__status_active {
+            color: $lime;
+        }
+    }
+
+    &__name {
+        font-size: 18px;
+        text-decoration: none;
+    }
+}
+
+.dropdown {
+    position: relative;
+
+    &__toggler {
+        border: none;
+        box-shadow: 0px 0px 12px -5px rgba(0, 0, 0, 0.25);
+        background: #fff;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    &__list {
+        z-index: 3;
+        top: 50%;
+        box-shadow: 0px 0px 12px -5px rgba(0, 0, 0, 0.25);
+        display: none;
+        position: absolute;
+        right: 0;
+        background: white;
+        padding: 10px 0;
+        border-radius: 15px;
+
+        a, button {
+            display: block;
+            padding: 5px 1rem;
+            text-decoration: none;
+            color: $blue;
+            font-size: 18px;
+            border: none;
+            background: none;
+            cursor: pointer;
+
+            &:hover {
+                background: #f6f6f6;
+            }
+        }
+    }
+
+    &.active {
+        .dropdown__list {
+            display: block;
+        }
+    }
+}
+
+form {
+    .row {
+        margin: .5rem 0;
+    }
+}
+
+.field {
+    outline: none;
+    border: none;
+    border-radius: 40px;
+    padding: 15px 1.5rem;
+    font-size: 16px;
+    background: #F5F5F5;
+    width: 100%;
+}
+
+textarea.field {
+    resize: none;
+    padding: 1.5rem 2rem;
+    min-height: 300px;
+    margin-bottom: 1rem;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+@media screen and (max-width: 990px) {
+    .block {
+        height: fit-content !important;
+        min-height: fit-content !important;
+        margin: .5rem 0;
+    }
+
+    form {
+        .row {
+            margin: 0;
+        }
+
+        .field {
+            margin: .5rem 0;
+        }
+    }
+}
