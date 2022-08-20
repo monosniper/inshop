@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDomainRequest;
 use App\Http\Resources\DomainResource;
-use App\Http\Resources\ModuleResource;
-use App\Http\Services\AdminHelper;
 use App\Models\Domain;
-use App\Models\Module;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,7 +20,7 @@ class DomainApiController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return AdminHelper::getCollection(Domain::query(), ['name'], $request, DomainResource::class);
+        return Admin::getCollection(Domain::query(), ['name'], $request, DomainResource::class);
     }
 
     /**

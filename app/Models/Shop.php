@@ -20,6 +20,10 @@ class Shop extends Model
         'options' => 'array'
     ];
 
+    public function reviews() {
+        return $this->hasMany(Review::class);
+    }
+
     static public function findByDomain($domain_id) {
         return Shop::where('domain_id', $domain_id)->first();
     }
@@ -29,8 +33,19 @@ class Shop extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function hasModule($module_id) {
+    public function banners(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Banner::class);
+    }
+
+    public function hasModule($module_id): bool
+    {
         return in_array($module_id, (array)$this->modules->pluck('id'));
+    }
+
+    public function customPages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CustomPage::class);
     }
 
     public function modules(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -43,6 +58,18 @@ class Shop extends Model
     {
         return $this->belongsToMany(LayoutOption::class, 'shop_layout_option')
             ->withPivot('isActive');
+    }
+
+    public function socialNetworks(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(SocialNetwork::class, 'shop_social_network')
+            ->withPivot('value');
+    }
+
+    public function colors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Color::class, 'shop_color')
+            ->withPivot('value');
     }
 
     public function domain(): BelongsTo

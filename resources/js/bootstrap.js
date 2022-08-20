@@ -18,7 +18,9 @@ iziToast.settings({
  */
 
 import axios from 'axios';
+import Noty from 'noty';
 window.axios = axios;
+window.Noty = Noty;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

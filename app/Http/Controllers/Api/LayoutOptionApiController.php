@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLayoutOptionRequest;
 use App\Http\Resources\LayoutOptionResource;
-use App\Http\Resources\ModuleResource;
-use App\Http\Services\AdminHelper;
 use App\Models\LayoutOption;
-use App\Models\Module;
 use App\Models\Shop;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +20,7 @@ class LayoutOptionApiController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return AdminHelper::getCollection(LayoutOption::query(), ['name', 'slug', 'description'], $request, LayoutOptionResource::class);
+        return Admin::getCollection(LayoutOption::query(), ['name', 'slug', 'description'], $request, LayoutOptionResource::class);
     }
 
     /**
@@ -33,8 +31,8 @@ class LayoutOptionApiController extends Controller
      */
     public function store(StoreLayoutOptionRequest $request): JsonResponse
     {
-        $module = LayoutOption::create($request->validated());
-        return response()->json(new LayoutOptionResource($module));
+        $option = LayoutOption::create($request->validated());
+        return response()->json(new LayoutOptionResource($option));
     }
 
     /**
@@ -55,9 +53,14 @@ class LayoutOptionApiController extends Controller
      * @param LayoutOption $layoutOption
      * @return JsonResponse
      */
-    public function update(StoreLayoutOptionRequest $request, LayoutOption $layoutOption): JsonResponse
+    public function update(Shop $shop, Request $request, LayoutOption $layoutOption): JsonResponse
     {
-        $layoutOption = $layoutOption->update($request->only(['key', 'value']));
+        $layoutOption->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'parent_id' => $request->parent_id,
+            'slug' => $request->origin_slug,
+        ]);
 
         return response()->json(new LayoutOptionResource($layoutOption));
     }
@@ -81,6 +84,7 @@ class LayoutOptionApiController extends Controller
 
     public function activate(Shop $shop, $layout_option_id) {
         $shop->layoutOptions()->updateExistingPivot($layout_option_id, ['isActive' => true]);
+        $shop->touch('updated_at');
 
         return response([
             'result' => 'success',
@@ -89,6 +93,7 @@ class LayoutOptionApiController extends Controller
 
     public function deactivate(Shop $shop, $layout_option_id) {
         $shop->layoutOptions()->updateExistingPivot($layout_option_id, ['isActive' => false]);
+        $shop->touch('updated_at');
 
         return response([
             'result' => 'success',

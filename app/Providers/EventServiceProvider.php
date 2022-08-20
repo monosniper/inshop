@@ -3,11 +3,15 @@
 namespace App\Providers;
 
 use App\Models\Client;
+use App\Models\Color;
 use App\Models\LayoutOption;
 use App\Models\Shop;
+use App\Models\SocialNetwork;
 use App\Observers\ClientObserver;
+use App\Observers\ColorObserver;
 use App\Observers\LayoutOptionObserver;
 use App\Observers\ShopObserver;
+use App\Observers\SocialNetworkObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -35,7 +39,9 @@ class EventServiceProvider extends ServiceProvider
     {
         Shop::observe(ShopObserver::class);
         LayoutOption::observe(LayoutOptionObserver::class);
+        Color::observe(ColorObserver::class);
         Client::observe(ClientObserver::class);
+        SocialNetwork::observe(SocialNetworkObserver::class);
     }
 
     /**

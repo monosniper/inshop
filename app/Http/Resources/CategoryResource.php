@@ -18,9 +18,11 @@ class CategoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid,
             'title' => $this->title,
             'products_count' => $this->getProductsCount(),
             'icon_url' => $this->getIconUrl(),
+            'icon_name' => $this->getIconName(),
         ];
     }
 }

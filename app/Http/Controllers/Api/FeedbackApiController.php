@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFeedBackRequest;
 use App\Http\Requests\UpdateFeedBackRequest;
 use App\Http\Resources\FeedBackResource;
-use App\Http\Resources\UserResource;
-use App\Http\Services\AdminHelper;
 use App\Models\FeedBack;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -23,7 +21,7 @@ class FeedbackApiController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return AdminHelper::getCollection(
+        return Admin::getCollection(
             FeedBack::query(),
             ['email', 'theme', 'content', 'email'],
             $request,

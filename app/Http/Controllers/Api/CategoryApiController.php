@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Shop;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CategoryApiController extends Controller
@@ -23,7 +25,7 @@ class CategoryApiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return CategoryResource
      */
     public function store($shop_id, Request $request)
@@ -40,7 +42,7 @@ class CategoryApiController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Category  $category
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category)
@@ -51,23 +53,32 @@ class CategoryApiController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Category $category
+     * @return JsonResponse
      */
-    public function update(Request $request, Category $category)
+    public function update($shop_id, Request $request, Category $category): JsonResponse
     {
-        //
+        $category->update($request->only(['title']));
+
+        return response()->json(new CategoryResource($category));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @param $shop_id
+     * @param Category $category
+     * @return JsonResponse
      */
-    public function destroy(Category $category)
+    public function destroy($shop_id, Category $category): JsonResponse
     {
-        //
+        $category->delete();
+
+        return response()->json(new CategoryResource($category));
+    }
+
+    public function deleteMany(Shop $shop, Request $request) {
+        return Category::whereIn('id', $request->ids)->delete();
     }
 }

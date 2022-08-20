@@ -21,12 +21,15 @@ class ProductResource extends JsonResource
             'title' => $this->title,
             'subtitle' => $this->subtitle,
             'price' => $this->price,
+            'discount' => $this->discount,
             'inStock' => $this->inStock,
             'properties' => $this->properties,
             'images' => $this->getImages(),
+            'images_names' => $this->getImagesNames(),
             'preview_url' => $this->getPreviewUrl(),
             'description' => $this->description,
             'category_id' => $this->category_id,
+            'category' => $this->category() ? $this->category()->title: '',
             'created_at' => $this->created_at,
         ];
     }

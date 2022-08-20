@@ -18,6 +18,7 @@ class LayoutOptionResource extends JsonResource
         return [
             'id' => $this->id,
             'slug' => $this->slug,
+            'origin_slug' => $this->getActualAttribute('slug'),
             'name' => $this->name,
             'description' => $this->description,
             'parent_id' => $this->parent_id,

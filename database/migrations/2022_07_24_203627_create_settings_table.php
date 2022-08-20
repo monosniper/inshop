@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSettingsTable extends Migration
 {
@@ -30,6 +31,7 @@ class CreateSettingsTable extends Migration
 		Schema::create($this->tablename, function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->boolean('isRich')->default(false);
 			$table->string('name');
 			$table->string($this->keyColumn)->index();
 			$table->text($this->valueColumn);

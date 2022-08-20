@@ -63,22 +63,9 @@
                 const success_text = 'Домен "' + domain + '" успешно зарегистрирован, и будет готов к работе в ближайшее время.';
                 const error_text = 'Произошла ошибка, попробуйте позже.';
 
-                let type = 'success';
-                let text = success_text;
-
-                if (!rs.data.result) {
-                    type = 'error'
-
-                    if(rs.data.messages.error) {
-                        text = rs.data.messages.error[0]
-                    } else {
-                        text = error_text
-                    }
-                }
-
-                new Noty({type, text}).show();
-            }).catch(() => {
-                new Noty({type: 'error', text: 'Домен "' + domain  + '" уже занят'}).show();
+                new Noty({type: 'success', text:success_text}).show();
+            }).catch((e) => {
+                new Noty({type: 'error', text: e.response.data.message}).show();
             }).finally(stopLoading)
         }
 

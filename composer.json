@@ -13,7 +13,9 @@
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "mohammad-fouladgar/eloquent-builder": "^4.0",
-        "protonemedia/laravel-cross-eloquent-search": "^3.0"
+        "protonemedia/laravel-cross-eloquent-search": "^3.0",
+        "ramsey/uuid": "^4.4",
+      "ext-curl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

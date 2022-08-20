@@ -3,9 +3,14 @@
 namespace App\Observers;
 
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\LayoutOption;
 use App\Models\Product;
 use App\Models\Shop;
+use App\Models\SocialNetwork;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
+use Ramsey\Uuid\Uuid;
 
 class ShopObserver
 {
@@ -28,9 +33,13 @@ class ShopObserver
 
         for($i=1;$i<=$categories_count;$i++) {
             $data = $category_data[$shop->options['language']];
+            $uuid = Uuid::uuid4()->toString();
             $categories[] = new Category([
                 'title' => $data['title']($i),
+                'uuid' => $uuid,
             ]);
+
+            Storage::disk('public')->putFile($uuid . '/images', new File(public_path('assets/img/default/category.png')));
         }
 
         $shop->categories()->saveMany($categories);
@@ -61,6 +70,7 @@ class ShopObserver
 
         for($i=1;$i<=$products_count;$i++) {
             $data = $product_data[$shop->options['language']];
+            $uuid = Uuid::uuid4()->toString();
             $products[] = new Product([
                 'title' => $data['title']($i),
                 'subtitle' => $data['subtitle'],
@@ -68,7 +78,10 @@ class ShopObserver
                 'price' => 49.99,
                 'inStock' => 100,
                 'category_id' => $categories[0]->id,
+                'uuid' => $uuid,
             ]);
+
+            Storage::disk('public')->putFile($uuid . '/images', new File(public_path('assets/img/default/product.jpg')));
         }
 
         $shop->products()->saveMany($products);
@@ -76,7 +89,18 @@ class ShopObserver
 
     public function syncLayoutOptions($shop) {
         $layoutOptions = LayoutOption::all();
+        $shop->layoutOptions()->sync([]);
         $shop->layoutOptions()->saveMany($layoutOptions);
+    }
+
+    public function syncColors($shop) {
+        $colors = Color::all();
+        $shop->colors()->saveMany($colors);
+    }
+
+    public function syncSocialNetworks($shop) {
+        $social_networks = SocialNetwork::all();
+        $shop->socialNetworks()->saveMany($social_networks);
     }
 
     /**
@@ -89,7 +113,10 @@ class ShopObserver
     {
         $categories = $this->createStartCategories($shop);
         $this->createStartProducts($shop, $categories);
+
         $this->syncLayoutOptions($shop);
+        $this->syncColors($shop);
+        $this->syncSocialNetworks($shop);
     }
 
     /**
@@ -100,7 +127,8 @@ class ShopObserver
      */
     public function updated(Shop $shop)
     {
-        //
+//        $this->syncLayoutOptions($shop);
+//        $this->syncColors($shop);
     }
 
     /**

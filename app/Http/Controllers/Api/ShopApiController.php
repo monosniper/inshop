@@ -2,29 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginClientRequest;
 use App\Http\Requests\RegisterClientRequest;
 use App\Http\Requests\StoreShopRequest;
 use App\Http\Resources\ClientResource;
-use App\Http\Resources\SettingResource;
 use App\Http\Resources\ShopResource;
-use App\Http\Services\AdminHelper;
 use App\Models\Client;
 use App\Models\Domain;
-use App\Models\Setting;
 use App\Models\Shop;
-use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use JetBrains\PhpStorm\Pure;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ShopApiController extends Controller
 {
@@ -102,7 +98,7 @@ class ShopApiController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return AdminHelper::getCollection(
+        return Admin::getCollection(
             Shop::query(),
             ['options->title'],
             $request,
@@ -119,15 +115,21 @@ class ShopApiController extends Controller
      */
     public function store(StoreShopRequest $request): JsonResponse|Application|Response|ResponseFactory
     {
-        try {
-            $shop = Shop::create([
-                'user_id' => $request->user_id,
-                'options' => $request->options,
-                'domain_id' => $request->domain_id
-            ]);
-        } catch(\Exception $err) {
-            return response(['result' => 'error', 'message' => 'Магазин с этим доменом уже существует.', 'details' => $err], 400);
-        }
+        $exists = Shop::where('domain_id', $request->domain_id)->exists();
+        abort_if($exists, ResponseAlias::HTTP_BAD_REQUEST, 'Магазин с этим доменом уже существует.');
+
+        $user = User::findOrFail($request->user_id)->loadCount('shops');
+
+        $limit = (int)setting('limits.shops');
+        $shops_limit = $user->shops_count >= $limit;
+        abort_if($shops_limit, ResponseAlias::HTTP_BAD_REQUEST, 'Максимальное количество магазинов уже достигнуто ('.$limit.').');
+
+        $shop = Shop::create([
+            'user_id' => $request->user_id,
+            'options' => $request->options,
+            'domain_id' => $request->domain_id
+        ]);
+
         if(array_key_exists('modules', $request->options)) {
             $shop->modules()->sync($request->options['modules']);
         }

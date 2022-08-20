@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('title', 255);
             $table->string('subtitle', 255)->nullable();
             $table->integer('price');
+            $table->integer('discount')->default(0);
             $table->text('description')->nullable();
             $table->integer('inStock')->default(0);
             $table->json('properties')->nullable();

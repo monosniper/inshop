@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreModuleRequest;
 use App\Http\Requests\UpdateModuleRequest;
 use App\Http\Resources\ModuleResource;
-use App\Http\Resources\SettingResource;
-use App\Http\Services\AdminHelper;
 use App\Models\Module;
-use App\Models\Setting;
 use App\Models\Shop;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -27,7 +24,7 @@ class ModuleApiController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return AdminHelper::getCollection(Module::query(), ['title', 'slug', 'description'], $request, ModuleResource::class);
+        return Admin::getCollection(Module::query(), ['title', 'slug', 'description'], $request, ModuleResource::class);
     }
 
     public function shopModules(Shop $shop, Module $module): AnonymousResourceCollection

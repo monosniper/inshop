@@ -21,18 +21,14 @@ class LayoutOption extends Model
         return $this->belongsTo(LayoutOption::class, 'parent_id');
     }
 
-//    public function getSlugAttribute() {
-//        $parent = $this->parent;
-//
-//        if($parent) return $parent->slug.'.'.$this->slug;
-//
-//        return $this->slug;
-//    }
-
     protected function slug(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => $this->parent ? $this->parent->slug.'.'.$value : $value,
         );
+    }
+
+    public function getActualAttribute($field){
+        return $this->attributes[$field];
     }
 }

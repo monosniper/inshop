@@ -8,7 +8,17 @@ use Illuminate\Support\Facades\Storage;
 
 class UploadApiController extends Controller
 {
-    public function upload(Request $request, $uuid, $path) {
+    public function get($uuid, $path, $name) {
+        $fileName = $name !== 'hello' ? $uuid . '/' . $path . '/' . $name : Storage::disk('public')->files($uuid . '/' . $path)[0];
+        $path = Storage::disk('public')->path($fileName);
+        return response()->file($path);
+    }
+
+    public function upload(Request $request, $uuid, $path, $single=false) {
+        if($single) {
+            Storage::disk('public')->deleteDirectory($uuid . '/' . $path);
+        }
+
         $filename = $request->file('image')->store($uuid . '/' . $path, 'public');
 
         return response()->json(['status' => 'success', 'filename' => $filename]);

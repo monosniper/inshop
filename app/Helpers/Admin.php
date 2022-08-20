@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Helpers;
 
-use App\Http\Resources\UserResource;
-use App\Models\User;
 use EloquentBuilder;
 use Illuminate\Support\Arr;
 use ProtoneMedia\LaravelCrossEloquentSearch\Search;
 
-class AdminHelper
+class Admin
 {
     static public function getCollection($query, $search_columns, $request, $resourceClass, $sort_convertors=[]) {
         $filter = (array) json_decode($request->filter);
@@ -70,8 +68,8 @@ class AdminHelper
 
         return response()->json($resourceClass::collection(
             $collection
-//                ->skip($range[0])
-//                ->take($range[1] - $range[0] + 1))
+                ->skip($range[0])
+                ->take($range[1] - $range[0] + 1)
         ))
             ->header("X-Total-Count", $collection->count())
             ->header("Access-Control-Expose-Headers", "X-Total-Count");

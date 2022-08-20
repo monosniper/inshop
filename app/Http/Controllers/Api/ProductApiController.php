@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ShopResource;
 use App\Models\Product;
@@ -11,6 +12,7 @@ use App\Models\Shop;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ProductApiController extends Controller
 {
@@ -28,19 +30,24 @@ class ProductApiController extends Controller
      * Store a newly created resource in storage.
      *
      * @param $shop_id
-     * @param Request $request
+     * @param StoreProductRequest $request
      * @return ProductResource
      */
-    public function store($shop_id, StoreProductRequest $request): ProductResource
+    public function store(Shop $shop, StoreProductRequest $request): ProductResource
     {
+        $limit = (int)setting('limits.products');
+        $products_limit = $shop->loadCount('products')->products_count >= $limit;
+        abort_if($products_limit, ResponseAlias::HTTP_BAD_REQUEST, 'Максимальное количество позиций в магазине уже достигнуто ('.$limit.').');
+
         $product = Product::create([
             'title' => $request->title,
             'subtitle' => $request->subtitle,
             'price' => $request->price,
+            'discount' => $request->discount ?? 0,
             'inStock' => $request->inStock,
             'description' => $request->description,
             'category_id' => $request->category_id,
-            'shop_id' => $shop_id,
+            'shop_id' => $shop->id,
             'properties' => json_encode([]),
             'uuid' => $request->uuid,
         ]);
@@ -62,13 +69,16 @@ class ProductApiController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Shop $shop
+     * @param UpdateProductRequest $request
+     * @param Product $product
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Shop $shop, UpdateProductRequest $request, Product $product): JsonResponse
     {
-        //
+        $product->update($request->validated());
+
+        return response()->json(new ProductResource($product));
     }
 
     /**

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SettingResource;
-use App\Http\Services\AdminHelper;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class SettingApiController extends Controller
 {
@@ -18,7 +17,7 @@ class SettingApiController extends Controller
      */
     public function index(Request $request)
     {
-        return AdminHelper::getCollection(Setting::query(), ['name', 'key'], $request, SettingResource::class);
+        return Admin::getCollection(Setting::query(), ['name', 'key'], $request, SettingResource::class);
     }
 
     /**
@@ -29,7 +28,7 @@ class SettingApiController extends Controller
      */
     public function store(Request $request)
     {
-        $setting = Setting::create($request->only(['key', 'value', 'name']));
+        $setting = Setting::create($request->only(['key', 'value', 'name', 'isRich']));
 
         return response()->json(new SettingResource($setting));
     }
@@ -54,7 +53,7 @@ class SettingApiController extends Controller
      */
     public function update(Request $request, Setting $setting)
     {
-        $setting = $setting->update($request->only(['key', 'value', 'name']));
+        $setting = $setting->update($request->only(['key', 'value', 'name', 'isRich']));
 
         return response()->json(new SettingResource($setting));
     }

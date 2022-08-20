@@ -14,6 +14,7 @@ class Product extends Model
         'title',
         'subtitle',
         'price',
+        'discount',
         'inStock',
         'properties',
         'description',
@@ -27,7 +28,7 @@ class Product extends Model
     }
 
     public function category() {
-        return $this->shop->categories->where('id', $this->category_id)->first();
+        return $this->category_id ? $this->shop->categories->where('id', $this->category_id)->first() : null;
     }
 
     public function getImages() {
@@ -36,6 +37,15 @@ class Product extends Model
         return count($filenames) ? array_map(function ($image) {
             return Storage::disk('public')->url($image);
         }, $filenames) : [asset('assets/img/default/product.jpg')];
+    }
+
+    public function getImagesNames() {
+        $filenames = Storage::disk('public')->files($this->uuid . '/images');
+
+        return array_map(function($image) {
+            $_image = explode('/', $image);
+            return $_image[count($_image) - 1];
+        }, $filenames);
     }
 
     public function getPreviewUrl(): string

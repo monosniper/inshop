@@ -27,10 +27,14 @@ class ShopResource extends JsonResource
             'last_update' => $last_update,
             'products' => ProductResource::collection($this->products),
             'clients' => ClientResource::collection($this->clients),
-//            'modules' => ModuleResource::collection($this->modules),
             'modules_ids' => $this->modules->pluck('id'),
             'modules' => ModuleResource::collection($this->modules),
             'layout' => LayoutOptionResource::collection($this->layoutOptions),
+            'colors' => ColorResource::collection($this->colors),
+            'social_networks' => SocialNetworkResource::collection($this->socialNetworks),
+            'banners' => BannerResource::collection($this->banners),
+            'custom_pages' => CustomPageResource::collection($this->customPages),
+            'reviews' => ReviewResource::collection($this->reviews),
         ];
     }
 }

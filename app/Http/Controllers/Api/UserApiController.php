@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DomainResource;
 use App\Http\Resources\ShopResource;
 use App\Http\Resources\UserResource;
-use App\Http\Services\AdminHelper;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class UserApiController extends Controller
      */
     public function index(Request $request)
     {
-        return AdminHelper::getCollection(User::query(), ['name', 'email'], $request, UserResource::class);
+        return Admin::getCollection(User::query(), ['name', 'email'], $request, UserResource::class);
     }
 
     /**
