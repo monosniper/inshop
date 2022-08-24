@@ -39,12 +39,11 @@ Route::group(['as' => 'api.'], function() {
             Route::get('/', [UserApiController::class, 'me']);
             Route::get('/shops', [UserApiController::class, 'shops']);
             Route::get('/domains', [UserApiController::class, 'domains']);
+
+            Route::post('/change-password', [UserApiController::class, 'changePassword']);
+            Route::put('/update', [UserApiController::class, 'updateData']);
         });
-//        Route::group(['prefix' => 'basket'], function() {
-//            Route::get('/{shop_id}/{client_id}', [BasketApiController::class, 'items']);
-//            Route::post('/add', [BasketApiController::class, 'add']);
-//            Route::delete('/remove/{basket_item}', [BasketApiController::class, 'remove']);
-//        });
+
         Route::apiResources([
             'settings' => SettingApiController::class,
             'users' => UserApiController::class,

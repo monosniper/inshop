@@ -11,8 +11,10 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class UserApiController extends Controller
@@ -151,5 +153,37 @@ class UserApiController extends Controller
         $user->unblock()->save();
 
         return response()->json(new UserResource($user));
+    }
+
+    public function changePassword(Request $request) {
+        abort_unless($request->has('old_password'), Response::HTTP_BAD_REQUEST, 'Старый пароль неверный');
+        abort_unless($request->has('new_password'), Response::HTTP_BAD_REQUEST, 'Новый пароль неверный');
+        abort_unless($request->has('new_password_again'), Response::HTTP_BAD_REQUEST, 'Пароли не совпадают');
+
+        $user = $request->user();
+
+        $incorrect_password = Hash::check($request->old_password, $user->password);
+        $new_password_confirmed = $request->new_password === $request->new_password_again;
+
+        abort_unless($incorrect_password, Response::HTTP_BAD_REQUEST, 'Старый пароль неверный');
+        abort_unless($new_password_confirmed, Response::HTTP_BAD_REQUEST, 'Пароли не совпадают');
+
+        $user->password = Hash::make($request->new_password);
+        $user->saveQuietly();
+
+        return response()->json();
+    }
+
+    public function updateData(Request $request) {
+        abort_unless($request->has('email'), Response::HTTP_BAD_REQUEST, 'Некорректное значение для поля почта');
+
+        $user = $request->user();
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        $user->saveQuietly();
+
+        return response()->json();
     }
 }

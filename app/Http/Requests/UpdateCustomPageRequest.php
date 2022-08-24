@@ -25,7 +25,6 @@ class UpdateCustomPageRequest extends FormRequest
     public function rules()
     {
         return [
-            'slug' => ['required', Rule::unique('custom_pages')->ignore($this->customPage['slug'], 'slug')],
             'title' => ['required'],
             'description' => ['sometimes'],
             'content' => ['sometimes'],

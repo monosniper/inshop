@@ -24,7 +24,6 @@ class StoreCustomPageRequest extends FormRequest
     public function rules()
     {
         return [
-            'slug' => ['required', 'unique:custom_pages'],
             'title' => ['required'],
             'description' => ['sometimes'],
             'content' => ['sometimes'],

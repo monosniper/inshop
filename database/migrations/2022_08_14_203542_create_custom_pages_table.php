@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Shop::class);
             $table->string('title');
             $table->string('description', 2048)->nullable();
-            $table->string('slug')->unique();
+            $table->string('slug')->nullable();
             $table->text('content')->nullable();
             $table->boolean('isActive')->default(true);
             $table->timestamps();

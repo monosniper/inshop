@@ -28,7 +28,7 @@ class Product extends Model
     }
 
     public function category() {
-        return $this->category_id ? $this->shop->categories->where('id', $this->category_id)->first() : null;
+        return $this->category_id && $this->shop ? $this->shop->categories->where('id', $this->category_id)->first() : null;
     }
 
     public function getImages() {
