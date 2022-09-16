@@ -11,7 +11,7 @@
             <a href="{{route('about')}}" class="header__link">О нас</a>
         </div>
         @auth
-            <a class="header__link" href="{{ route('dashboard.index') }}">{{ auth()->user()->email }}</a>
+            <a class="header__link" href="{{ env('STORAGE_URL') }}">{{ auth()->user()->email }}</a>
         @else
             <a href="{{ route('register') }}" class="header__link button button_red button_sm button_outline">Регистрация</a>
         @endauth

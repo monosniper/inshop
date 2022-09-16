@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->string('name')->unique();
+            $table->boolean('isSubdomain')->default(true);
             $table->timestamps();
         });
     }

@@ -50,6 +50,7 @@ class ProductApiController extends Controller
             'shop_id' => $shop->id,
             'properties' => json_encode([]),
             'uuid' => $request->uuid,
+            'order' => $request->order,
         ]);
 
         return new ProductResource($product);

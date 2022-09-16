@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 
 class BannerApiController extends Controller
 {
-    public function getTypes() {
+    public function getTypes(): JsonResponse
+    {
         return response()->json([
             'data' => Banner::TYPES
         ]);
@@ -33,6 +34,7 @@ class BannerApiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param $shop_id
      * @param StoreBannerRequest $request
      * @return JsonResponse
      */
@@ -56,7 +58,8 @@ class BannerApiController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param Shop $shop
+     * @param StoreBannerRequest $request
      * @param Banner $banner
      * @return JsonResponse
      */
@@ -70,6 +73,7 @@ class BannerApiController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Shop $shop
      * @param Banner $banner
      * @return JsonResponse
      */

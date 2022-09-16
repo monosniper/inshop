@@ -24,9 +24,10 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('discount')->default(0);
             $table->text('description')->nullable();
-            $table->integer('inStock')->default(0);
+            $table->integer('inStock')->default(0)->nullable();
             $table->json('properties')->nullable();
             $table->string('uuid')->unique();
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }

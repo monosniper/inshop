@@ -46,7 +46,10 @@ class ShopApiController extends Controller
     }
 
     public function getShop(Request $request) {
-        $domain = Domain::where('name', $request->domain_name)->first();
+        $domain = Domain::where('name', $request->subdomain)
+            ->orWhere('name', str_replace('www.', '', $request->domain))
+            ->orWhere('name', $request->domain)
+            ->first();
 
         if(!$domain) return response(['result' => 'error', 'message' => 'Доменное имя не найдено.'], 400);
 
@@ -125,6 +128,7 @@ class ShopApiController extends Controller
         abort_if($shops_limit, ResponseAlias::HTTP_BAD_REQUEST, 'Максимальное количество магазинов уже достигнуто ('.$limit.').');
 
         $shop = Shop::create([
+            'uuid' => $request->uuid,
             'user_id' => $request->user_id,
             'options' => $request->options,
             'domain_id' => $request->domain_id
@@ -158,7 +162,16 @@ class ShopApiController extends Controller
      */
     public function update(Request $request, Shop $shop): JsonResponse
     {
-        $shop->update(['options' => json_encode($request->all())]);
+        $shop->update(['options' => $request->except('domain_id')]);
+
+        if($request->domain_id) {
+            $domain = Domain::findOrFail($request->domain_id);
+
+            if($domain) {
+                $shop->domain()->associate($domain);
+                $shop->save();
+            }
+        }
 
         return response()->json(new ShopResource($shop));
     }

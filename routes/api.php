@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\ProductApiController;
 use App\Http\Controllers\Api\ReviewApiController;
 use App\Http\Controllers\Api\SettingApiController;
 use App\Http\Controllers\Api\ShopApiController;
+use App\Http\Controllers\Api\ShopFilterApiController;
 use App\Http\Controllers\Api\SocialNetworkApiController;
 use App\Http\Controllers\Api\UploadApiController;
 use App\Http\Controllers\Api\UserApiController;
@@ -23,13 +24,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'api.'], function() {
+    Route::post('/qiwi/callback', [OrderApiController::class, 'qiwiPayCallback']);
+
     Route::post('/sanctum/token', [UserApiController::class, 'getApiToken']);
     Route::get('/me', [UserApiController::class, 'getMe'])->middleware('auth:sanctum');
     Route::post('files/upload/{uuid}/{path}/{single?}', [UploadApiController::class, 'upload']);
     Route::post('files/delete', [UploadApiController::class, 'delete']);
     Route::get('files/get/{uuid}/{path}/{name?}', [UploadApiController::class, 'get']);
 
-    Route::middleware('auth:api')->group(function() {
+    Route::group([
+            'middleware' => 'auth:api'
+        ], function() {
         Route::group(['prefix' => 'hosting', 'as' => 'hosting.'], function() {
             Route::post('/register', [HostingApiController::class, 'registerDomain'])->name('register');
             Route::post('/check', [HostingApiController::class, 'checkDomain'])->name('check');
@@ -43,33 +48,35 @@ Route::group(['as' => 'api.'], function() {
             Route::post('/change-password', [UserApiController::class, 'changePassword']);
             Route::put('/update', [UserApiController::class, 'updateData']);
         });
-
-        Route::apiResources([
-            'settings' => SettingApiController::class,
-            'users' => UserApiController::class,
-            'feedBacks' => FeedbackApiController::class,
-            'modules' => ModuleApiController::class,
-            'layoutOptions' => LayoutOptionApiController::class,
-            'domains' => DomainApiController::class,
-            'colors' => ColorApiController::class,
-            'shops' => ShopApiController::class,
-            'social_networks' => SocialNetworkApiController::class,
-            'shops.products' => ProductApiController::class,
-            'shops.clients' => ClientApiController::class,
-            'shops.categories' => CategoryApiController::class,
-            'shops.orders' => OrderApiController::class,
-            'shops.colors' => ColorApiController::class,
-            'shops.social_networks' => SocialNetworkApiController::class,
-            'shops.banners' => BannerApiController::class,
-            'shops.customPages' => CustomPageApiController::class,
-            'shops.reviews' => ReviewApiController::class,
-        ]);
     });
+
+    Route::apiResources([
+        'settings' => SettingApiController::class,
+        'users' => UserApiController::class,
+        'feedBacks' => FeedbackApiController::class,
+        'modules' => ModuleApiController::class,
+        'layoutOptions' => LayoutOptionApiController::class,
+        'domains' => DomainApiController::class,
+        'colors' => ColorApiController::class,
+        'filters' => ShopFilterApiController::class,
+        'shops' => ShopApiController::class,
+        'social_networks' => SocialNetworkApiController::class,
+        'shops.products' => ProductApiController::class,
+        'shops.clients' => ClientApiController::class,
+        'shops.categories' => CategoryApiController::class,
+        'shops.orders' => OrderApiController::class,
+        'shops.colors' => ColorApiController::class,
+        'shops.social_networks' => SocialNetworkApiController::class,
+        'shops.banners' => BannerApiController::class,
+        'shops.customPages' => CustomPageApiController::class,
+        'shops.reviews' => ReviewApiController::class,
+        'shops.basket' => BasketApiController::class,
+    ]);
+
+    Route::post('domains/deleteMany', [DomainApiController::class, 'deleteMany']);
 
     Route::get('users/{user}/block', [UserApiController::class, 'block']);
     Route::get('users/{user}/unblock', [UserApiController::class, 'unblock']);
-
-    Route::apiResource('shops.basket', BasketApiController::class);
 
     Route::get('get-shop', [ShopApiController::class, 'getShop']);
     Route::get('shops/{shop}/products', [ProductApiController::class, 'index']);
@@ -95,10 +102,17 @@ Route::group(['as' => 'api.'], function() {
 
     Route::post('shops/{shop}/categories/deleteMany', [CategoryApiController::class, 'deleteMany']);
     Route::post('shops/{shop}/products/deleteMany', [ProductApiController::class, 'deleteMany']);
+    Route::post('shops/{shop}/orders/deleteMany', [OrderApiController::class, 'deleteMany']);
 
     Route::get('shops/{shop}/layoutOptions', [LayoutOptionApiController::class, 'shopLayoutOptions']);
     Route::get('shops/{shop}/layoutOptions/{layoutOption}/activate', [LayoutOptionApiController::class, 'activate']);
     Route::get('shops/{shop}/layoutOptions/{layoutOption}/deactivate', [LayoutOptionApiController::class, 'deactivate']);
+
+    Route::get('shops/{shop}/filters', [ShopFilterApiController::class, 'shopFilters']);
+    Route::get('shops/{shop}/filters/{filter}/activate', [ShopFilterApiController::class, 'activate']);
+    Route::get('shops/{shop}/filters/{filter}/deactivate', [ShopFilterApiController::class, 'deactivate']);
+
+    Route::post('/shops/{shop}/orders', [OrderApiController::class, 'store']);
 
     Route::post('/shops/{shop}/register', [ShopApiController::class, 'registerClient']);
     Route::post('/shops/{shop}/login', [ShopApiController::class, 'loginClient']);

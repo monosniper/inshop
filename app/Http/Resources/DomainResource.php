@@ -20,7 +20,7 @@ class DomainResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'fullname' => $this->getFullDomain(),
-            'shop_id' => $this->shop_id,
+            'shop_id' => $this->shop ? $this->shop->id : null,
             'user_id' => $this->user_id,
         ];
     }

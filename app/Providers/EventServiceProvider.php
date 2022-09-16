@@ -6,10 +6,12 @@ use App\Models\Client;
 use App\Models\Color;
 use App\Models\LayoutOption;
 use App\Models\Shop;
+use App\Models\ShopFilter;
 use App\Models\SocialNetwork;
 use App\Observers\ClientObserver;
 use App\Observers\ColorObserver;
 use App\Observers\LayoutOptionObserver;
+use App\Observers\ShopFilterObserver;
 use App\Observers\ShopObserver;
 use App\Observers\SocialNetworkObserver;
 use Illuminate\Auth\Events\Registered;
@@ -38,6 +40,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Shop::observe(ShopObserver::class);
+        ShopFilter::observe(ShopFilterObserver::class);
         LayoutOption::observe(LayoutOptionObserver::class);
         Color::observe(ColorObserver::class);
         Client::observe(ClientObserver::class);

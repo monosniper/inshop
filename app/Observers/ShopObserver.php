@@ -7,6 +7,7 @@ use App\Models\Color;
 use App\Models\LayoutOption;
 use App\Models\Product;
 use App\Models\Shop;
+use App\Models\ShopFilter;
 use App\Models\SocialNetwork;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
@@ -103,6 +104,11 @@ class ShopObserver
         $shop->socialNetworks()->saveMany($social_networks);
     }
 
+    public function syncFilters($shop) {
+        $filters = ShopFilter::all();
+        $shop->filters()->saveMany($filters);
+    }
+
     /**
      * Handle the Shop "created" event.
      *
@@ -117,6 +123,7 @@ class ShopObserver
         $this->syncLayoutOptions($shop);
         $this->syncColors($shop);
         $this->syncSocialNetworks($shop);
+        $this->syncFilters($shop);
     }
 
     /**
@@ -127,6 +134,7 @@ class ShopObserver
      */
     public function updated(Shop $shop)
     {
+//        $this->syncFilters($shop);
 //        $this->syncLayoutOptions($shop);
 //        $this->syncColors($shop);
     }

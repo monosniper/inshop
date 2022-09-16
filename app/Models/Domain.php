@@ -13,11 +13,12 @@ class Domain extends Model
         'id',
         'name',
         'user_id',
+        'isSubdomain',
     ];
 
     public function getFullDomain(): string
     {
-        return $this->name . '.' . config('app.shops_domain');
+        return $this->isSubdomain ? $this->name . '.' . config('app.shops_domain') : $this->name;
     }
 
     public function shop() {

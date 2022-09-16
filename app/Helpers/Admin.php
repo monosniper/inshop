@@ -10,8 +10,16 @@ class Admin
 {
     static public function getCollection($query, $search_columns, $request, $resourceClass, $sort_convertors=[]) {
         $filter = (array) json_decode($request->filter);
-        $sort = json_decode($request->sort);
-        $range = json_decode($request->range);
+
+        $sort = [];
+        $range = null;
+
+        if($request->sort) {
+            $sort = json_decode($request->sort);
+        }
+        if($request->range) {
+            $range = json_decode($request->range);
+        }
 
         $sortBy = $sort ? !array_key_exists($sort[0], $sort_convertors) ? $sort[0] : $sort_convertors[$sort[0]] : false;
 

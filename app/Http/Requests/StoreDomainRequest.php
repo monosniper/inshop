@@ -25,7 +25,8 @@ class StoreDomainRequest extends FormRequest
     {
         return [
             'name' => ['required', 'unique:domains,name'],
-            'user_id' => ['exists:users,id']
+            'user_id' => ['exists:users,id'],
+            'isSubdomain' => ['boolean'],
         ];
     }
 }

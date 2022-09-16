@@ -20,6 +20,7 @@ class Product extends Model
         'description',
         'shop_id',
         'category_id',
+        'priority',
         'uuid',
     ];
 
@@ -29,6 +30,11 @@ class Product extends Model
 
     public function category() {
         return $this->category_id && $this->shop ? $this->shop->categories->where('id', $this->category_id)->first() : null;
+    }
+
+    public function getDiscountPrice() {
+        $discount = $this->price / 100 * $this->discount;
+        return $this->price - $discount;
     }
 
     public function getImages() {

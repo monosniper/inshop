@@ -69,7 +69,7 @@ class ModuleApiController extends Controller
      */
     public function update(UpdateModuleRequest $request, Shop $shop, Module $module): JsonResponse
     {
-        $module->update($request->only(['key', 'value']));
+        $module->update($request->validated());
 
         $module->dependencies()->sync($request->dependencies_ids);
 

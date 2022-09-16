@@ -18,7 +18,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Shop::class);
             $table->json('shipping_data');
-            $table->json('products');
+            $table->boolean('payed')->default(false);
+            $table->string('billId')->unique();
             $table->timestamps();
         });
     }

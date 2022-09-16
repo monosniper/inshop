@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Domain::class)->unique();
             $table->json('options');
+            $table->string('uuid')->unique();
             $table->timestamps();
         });
     }

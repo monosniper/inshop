@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shop;
+use App\Models\ShopFilter;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller

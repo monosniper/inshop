@@ -27,6 +27,7 @@ class UpdateModuleRequest extends FormRequest
             'title' => ['required'],
             'slug' => ['required', 'unique:modules,slug,'.$this->id],
             'description' => ['required'],
+            'price' => ['required'],
         ];
     }
 }

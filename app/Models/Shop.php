@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class Shop extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'uuid',
         'user_id',
         'domain_id',
         'options'
@@ -60,6 +62,12 @@ class Shop extends Model
             ->withPivot('isActive');
     }
 
+    public function filters(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(ShopFilter::class, 'shop_shop_filter')
+            ->withPivot('isActive');
+    }
+
     public function socialNetworks(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(SocialNetwork::class, 'shop_social_network')
@@ -75,6 +83,10 @@ class Shop extends Model
     public function domain(): BelongsTo
     {
         return $this->belongsTo(Domain::class);
+    }
+
+    public function orders() {
+        return $this->hasMany(Order::class);
     }
 
     public function products(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -97,10 +109,17 @@ class Shop extends Model
         return $this->hasMany(Basket::class);
     }
 
-    public function getFullDomain(): string
-    {
-        $domain = $this->domain;
+    public function getLogoUrl() {
+        $filenames = Storage::disk('public')->files($this->uuid . '/images');
 
-        return $domain ? $domain->name . '.' . config('app.shops_domain') : '';
+        return count($filenames) ? array_map(function ($image) {
+            return Storage::disk('public')->url($image);
+        }, $filenames)[0] : asset('assets/img/default/logo.png');
+    }
+
+    public function getLogoName() {
+        $file = Storage::disk('public')->files($this->uuid . '/images');
+        $name = explode('/', count($file) ? $file[0] : asset('assets/img/default/logo.png'));
+        return $name[count($name) - 1];
     }
 }

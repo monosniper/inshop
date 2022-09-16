@@ -54,16 +54,16 @@ class BasketApiController extends Controller
      */
     public function update($shop_id, Basket $basket, Request $request)
     {
-
         $basket->items()->delete();
+        $basket->items()->createMany(array_map(fn($id) => ['product_id' => $id], $request->items));
 
-        foreach ($request->all() as $product) {
-            $basketItem = BasketItem::create([
-                'basket_id' => $basket->id,
-                'product_id' => $product['product']['id']
-            ]);
-            $basket->items()->save($basketItem);
-        }
+//        foreach ($request->all() as $product) {
+//            $basketItem = BasketItem::create([
+//                'basket_id' => $basket->id,
+//                'product_id' => $product['product']['id']
+//            ]);
+//            $basket->items()->save($basketItem);
+//        }
 
         return response()->json($basket->items);
     }
